@@ -95,17 +95,39 @@ router.delete('/delete', (req, res) => {
 
 // 更新 Anime
 router.patch('/update', (req, res) => {
-  const { id, name, nation, info, time } = req.body;
+  const { id, name, nation, info, time, imgUrl } = req.body;
 
-  const sql = `UPDATE anime
-               SET
-                 ${name ? `name = '${name}',` : ''}
-                 ${nation ? `nation = '${nation}',` : ''}
-                 ${info ? `info = '${info}',` : ''}
-                 ${time ? `time = '${time}'` : ''}
-               WHERE id = ${id}`;
+  let sql = 'UPDATE anime SET';
+  const values = [];
 
-  connection.query(sql, (err, result) => {
+  if (name) {
+    sql += ' name = ?,';
+    values.push(name);
+  }
+  if (nation) {
+    sql += ' nation = ?,';
+    values.push(nation);
+  }
+  if (info) {
+    sql += ' info = ?,';
+    values.push(info);
+  }
+  if (time) {
+    sql += ' time = ?,';
+    values.push(time);
+  }
+  if (imgUrl) {
+    sql += ' imgUrl = ?,';
+    values.push(imgUrl);
+  }
+
+  // 移除最后一个逗号
+  sql = sql.slice(0, -1);
+
+  sql += ' WHERE id = ?';
+  values.push(id);
+
+  connection.query(sql, values, (err, result) => {
     if (err) {
       console.error('更新动漫失败: ' + err.stack);
       res.status(500).json({ code: 500, message: '更新动漫失败' });
@@ -119,6 +141,7 @@ router.patch('/update', (req, res) => {
     }
   });
 });
+
 
 // 条件查询
 router.get('/infoByCondition', (req, res) => {
