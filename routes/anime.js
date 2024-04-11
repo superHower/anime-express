@@ -3,17 +3,17 @@ const router = express.Router();
 const connection = require('../db');
 // 插入 Anime
 router.post('/insert', (req, res) => {
-  const { name, info, nation, time } = req.body;
+  const { name, info, nation, time, imgUrl } = req.body;
 
-  const sql = 'INSERT INTO anime (name, info, nation, time) VALUES (?, ?, ?, ?)';
-  connection.query(sql, [name, info, nation, time], (err, result) => {
+  const sql = 'INSERT INTO anime (name, info, nation, time, imgUrl) VALUES (?, ?, ?, ?, ?)';
+  connection.query(sql, [name, info, nation, time, imgUrl], (err, result) => {
     if (err) {
       console.error('添加动漫失败: ' + err.stack);
       res.status(500).json({ code: 500, message: '添加动漫失败', data: null });
       return;
     }
 
-    res.json({ code: 200, message: '添加动漫成功', data: { id: result.insertId, name, info, nation, time } });
+    res.json({ code: 200, message: '添加动漫成功', data: { id: result.insertId, name, info, nation, time, imgUrl } });
   });
 });
 
