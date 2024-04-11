@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../db');
+
 // 插入一集
 router.post('/insert', (req, res) => {
   const { aid, number, name, duration } = req.body;
@@ -13,6 +14,7 @@ router.post('/insert', (req, res) => {
       return;
     }
 
+    console.log('插入剧集成功:', result);
     res.json({ code: 200, message: '插入剧集成功', data: { id: result.insertId, aid, number, name, duration } });
   });
 });
@@ -29,6 +31,7 @@ router.get('/list', (req, res) => {
       return;
     }
 
+    console.log('获取剧集列表成功:', results);
     res.json({ code: 200, message: '获取剧集列表成功', data: results });
   });
 });
@@ -45,7 +48,9 @@ router.delete('/delete', (req, res) => {
       return;
     }
 
+    console.log('删除剧集成功:', result);
     res.sendStatus(204);
   });
 });
+
 module.exports = router;

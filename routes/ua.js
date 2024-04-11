@@ -17,6 +17,7 @@ router.post('/insert', (req, res) => {
       return;
     }
 
+    console.log('插入 Ua 成功:', result);
     res.json({ code: 200, message: '插入 Ua 成功', data: { id: result.insertId } });
   });
 });
@@ -33,6 +34,7 @@ router.get('/info', (req, res) => {
       return;
     }
 
+    console.log('查询 Ua 信息成功:', results);
     res.json({ code: 200, message: '查询 Ua 信息成功', data: results });
   });
 });
@@ -49,6 +51,7 @@ router.post('/comment', (req, res) => {
       return;
     }
 
+    console.log('发表评论成功:', result);
     res.json({ code: 200, message: '发表评论成功', data: { id: result.insertId } });
   });
 });
@@ -65,6 +68,7 @@ router.patch('/updateLike', (req, res) => {
       return;
     }
 
+    console.log('更新 Ua 成功:', results);
     res.json({ code: 200, message: '更新 Ua 成功', data: null });
   });
 });
@@ -81,6 +85,7 @@ router.patch('/updateCollect', (req, res) => {
       return;
     }
 
+    console.log('更新 Ua 成功:', results);
     res.json({ code: 200, message: '更新 Ua 成功', data: null });
   });
 });
@@ -97,8 +102,9 @@ router.patch('/updateRanking', (req, res) => {
       return;
     }
 
+    console.log('更新 Ua 成功:', results);
     res.json({ code: 200, message: '更新 Ua 成功', data: null });
   });
 });
-  
+
 module.exports = router;

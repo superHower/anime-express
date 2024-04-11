@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../db');
-// 插入 Anime
+
 router.post('/insert', (req, res) => {
   const { name, info, nation, time, imgUrl } = req.body;
 
@@ -13,6 +13,7 @@ router.post('/insert', (req, res) => {
       return;
     }
 
+    console.log('成功添加动漫', result);
     res.json({ code: 200, message: '添加动漫成功', data: { id: result.insertId, name, info, nation, time, imgUrl } });
   });
 });
@@ -27,6 +28,7 @@ router.get('/list', (req, res) => {
       return;
     }
 
+    console.log('成功获取所有动漫', results);
     res.json({ code: 200, message: '已获取所有动漫', data: results });
   });
 });
@@ -45,12 +47,14 @@ router.get('/info', (req, res) => {
 
     if (results.length > 0) {
       const anime = results[0];
+      console.log('成功获取动漫信息', results);
       res.json({ code: 200, message: '动漫获取成功', data: anime });
     } else {
       res.status(404).json({ code: 404, message: '没找到此动漫', data: null });
     }
   });
 });
+
 // 根据名称模糊查询 Anime
 router.get('/infoByName', (req, res) => {
   const { name } = req.query;
@@ -69,6 +73,7 @@ router.get('/infoByName', (req, res) => {
       return;
     }
 
+    console.log('成功进行名称模糊查询动漫', results);
     res.json({ code: 200, message: '名称模糊查询动漫成功', data: results });
   });
 });
@@ -86,6 +91,7 @@ router.delete('/delete', (req, res) => {
     }
 
     if (result.affectedRows > 0) {
+      console.log('成功删除动漫', result);
       res.json({ code: 200, message: '动漫删除成功' });
     } else {
       res.status(404).json({ code: 404, message: '找不到指定的动漫' });
@@ -135,14 +141,13 @@ router.patch('/update', (req, res) => {
     }
 
     if (result.affectedRows > 0) {
+      console.log('成功更新动漫', result);
       res.json({ code: 200, message: '动漫更新成功' });
     } else {
       res.status(404).json({ code: 404, message: '找不到指定的动漫' });
     }
   });
 });
-
-
 // 条件查询
 router.get('/infoByCondition', (req, res) => {
   const { nation, time } = req.query;
@@ -189,6 +194,7 @@ router.get('/infoByCondition', (req, res) => {
       res.status(500).json({ code: 500, message: '动漫查询失败' });
       return;
     }
+    console.log('动漫查询成功', results)
 
     res.json({ code: 200, message: '动漫查询成功', data: results });
   });
@@ -207,6 +213,7 @@ router.get('/latestComment', (req, res) => {
       res.status(500).json({ code: 500, message: '查询最新评论失败', data: null });
       return;
     }
+    console.log('查询最新评论成功', results)
 
     res.json({ code: 200, message: '查询最新评论成功', data: results[0] });
   });
@@ -224,7 +231,7 @@ router.get('/collectionAnime', (req, res) => {
       res.status(500).json({ code: 500, message: '查询收藏的动漫失败', data: null });
       return;
     }
-
+    console.log('查询收藏的动漫成功', results)
     res.json({ code: 200, message: '查询收藏的动漫成功', data: results[0] });
   });
 });
@@ -241,7 +248,7 @@ router.get('/favoriteAnime', (req, res) => {
       res.status(500).json({ code: 500, message: '查询点赞的动漫失败', data: null });
       return;
     }
-
+    console.log('查询点赞的动漫成功', results)
     res.json({ code: 200, message: '查询点赞的动漫成功', data: results[0] });
   });
 });

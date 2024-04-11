@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../db');
+
 // 注册
 router.post('/register', (req, res) => {
   const { account, name, gender, age, pwd } = req.body;
@@ -16,6 +17,7 @@ router.post('/register', (req, res) => {
 
     // 返回插入的用户信息
     const insertedUser = { account, name, gender, age };
+    console.log('成功插入用户信息：', insertedUser);
     res.json({ code: 200, message: '注册成功', data: insertedUser });
   });
 });
@@ -35,6 +37,7 @@ router.post('/login', (req, res) => {
 
     if (results.length > 0) {
       const user = results[0];
+      console.log('登录成功', results)
       res.json({ code: 200, message: '登录成功', token: 'Ae27rgdwdkfu', data: user });
     } else {
       res.status(404).json({ code: 404, message: '账号或密码输入错误', data: null });
@@ -74,6 +77,7 @@ router.put('/userinfo', (req, res) => {
       return;
     }
 
+    console.log('成功更新用户信息');
     res.json({ code: 200, message: '更新用户基本信息成功', data: null });
   });
 });
@@ -108,6 +112,7 @@ router.patch('/updatepwd', (req, res) => {
         return;
       }
 
+      console.log('成功更新用户密码', results);
       res.json({ code: 200, message: '密码已更新', data: null });
     });
   });
@@ -124,7 +129,7 @@ router.get('/list', (req, res) => {
       return;
     }
 
-    // 返回用户列表
+    console.log('成功获取用户列表', results);
     res.json({ code: 200, message: '获取用户列表成功', data: results });
   });
 });
@@ -143,6 +148,7 @@ router.delete('/delete', (req, res) => {
     }
 
     if (result.affectedRows > 0) {
+      console.log('成功删除用户', result);
       res.json({ code: 200, message: '用户删除成功', data: null });
     } else {
       res.status(404).json({ code: 404, message: '用户未找到', data: null });

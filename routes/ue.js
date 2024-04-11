@@ -6,10 +6,7 @@ const connection = require('../db');
 router.post('/', (req, res) => {
   const { uid, eid, barrage, time } = req.body;
 
-  const sql = `
-    INSERT INTO ue (uid, eid, barrage, time)
-    VALUES (?, ?, ?, ?)
-  `;
+  const sql = `INSERT INTO ue (uid, eid, barrage, time) VALUES (?, ?, ?, ?)`;
   connection.query(sql, [uid, eid, barrage, time], (err, result) => {
     if (err) {
       console.error('Error inserting Ue: ' + err.stack);
@@ -17,6 +14,7 @@ router.post('/', (req, res) => {
       return;
     }
 
+    console.log('Ue inserted successfully');
     res.json({ id: result.insertId });
   });
 });
@@ -31,6 +29,7 @@ router.get('/', (req, res) => {
       return;
     }
 
+    console.log('Ue queried successfully');
     res.json(results);
   });
 });
@@ -47,6 +46,7 @@ router.get('/details', (req, res) => {
       return;
     }
 
+    console.log('Ue details queried successfully');
     res.json(results);
   });
 });
@@ -63,6 +63,7 @@ router.delete('/:uid/:eid', (req, res) => {
       return;
     }
 
+    console.log('Ue deleted successfully');
     res.json({ affectedRows: result.affectedRows });
   });
 });
@@ -80,6 +81,7 @@ router.put('/:id', (req, res) => {
       return;
     }
 
+    console.log('Ue updated successfully');
     res.json({ affectedRows: result.affectedRows });
   });
 });
